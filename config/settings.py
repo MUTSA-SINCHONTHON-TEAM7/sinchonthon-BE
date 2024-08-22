@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '3.35.205.170'
+    '3.35.205.170',
     'mutsateam7.site',
     'api.mutsateam7.site'
 ]
