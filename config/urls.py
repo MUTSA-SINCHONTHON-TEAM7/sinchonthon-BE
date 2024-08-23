@@ -27,4 +27,5 @@ urlpatterns = [
     path('users', user_detail),
 
     path('search', include('search.urls')),
+    path('reviews', include('reviews.urls')),
 ]
