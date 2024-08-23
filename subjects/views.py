@@ -89,3 +89,13 @@ def get_votesubjects(request):
 
     serializer = SubjectAndVoteResponseSerializer(subjects, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_subject_detail(request, id):
+    try:
+        subject = Subject.objects.get(id=id)
+    except Subject.DoesNotExist:
+        return Response({'항목을 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = SubjectAndVoteResponseSerializer(subject, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
