@@ -20,6 +20,7 @@ from django.urls import path, include
 from accounts.views import kakao_login, user_my_detail, user_detail
 from lectures.views import lecture_post_or_lists, lecture_single, lecture_my, lecture_applied, funding_access
 from subjects.views import *
+from accounts.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,4 +42,6 @@ urlpatterns = [
   
     path('search', include('search.urls')),
     path('reviews', include('reviews.urls')),
+    
+    path('users/credit', insert_credit),
 ]

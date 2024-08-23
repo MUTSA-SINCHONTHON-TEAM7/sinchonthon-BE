@@ -4,6 +4,7 @@ import json
 
 import requests
 
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -144,3 +145,14 @@ def user_my_detail(request):
 #             }
 #         )
 #         return response.json().get('profileImageURL', '')
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def insert_credit(request):
+    amount = request.data['amount']
+    
+    user = request.user
+    user.coin += amount
+    user.save()
+    
+    return Response('충전 완료', status=status.HTTP_200_OK)

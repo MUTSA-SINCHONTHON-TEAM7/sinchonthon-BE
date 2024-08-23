@@ -6,6 +6,7 @@ from rest_framework import status
 
 from .models import Review
 from .serializers import *
+from lectures.models import Lecture
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -13,10 +14,18 @@ from .serializers import *
 def review(request):
   match request.method:
     case 'POST':
-      serializer = ReviewSerializer(data=request.data)
+      serializer = PostReviewSerializer(data=request.data)
       if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        lecture = Lecture.objects.get(id=request.data['lecture_id'])
+        
+        review = Review.objects.create(
+          mutsa_user=request.user,
+          lecture=lecture,
+          content=serializer.validated_data['content']
+        )
+        
+        responseSerializer = GetReviewSerializer(review)
+        return Response(responseSerializer.data, status=status.HTTP_201_CREATED)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST1)
     
     case 'GET':
