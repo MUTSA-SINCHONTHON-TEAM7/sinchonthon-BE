@@ -3,10 +3,15 @@ from .models import Lecture, Fundings
 
 class LectureResponseSerializer(serializers.ModelSerializer):
     subject_id = serializers.IntegerField(source='subject.id')
+    writer_nickname = serializers.CharField(source='mutsa_user.nickname')
+    funding_count = serializers.SerializerMethodField()
     
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_id', 'title', 'category', 'cost', 'min_total_cost', 'max_student', 'lecture_detail']
+        fields = ['id', 'subject_id', 'title', 'category', 'cost', 'min_total_cost', 'max_student', 'lecture_detail', 'writer_nickname', 'funding_count']
+        
+    def get_funding_count(self, obj):
+        return Fundings.objects.filter(lecture=obj).count()
         
 class LecturePostSerializer(serializers.Serializer):
     subject_id = serializers.IntegerField()
