@@ -54,10 +54,9 @@ INSTALLED_APPS = [
     
     'accounts',
     'lectures',
-    'logs',
+    'subjects',
     'reviews',
     'search',
-    'subjects',
 ]
 
 MIDDLEWARE = [
