@@ -7,33 +7,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 
-
-# class SubjectCreateView(generics.CreateAPIView):
-#     permission_classes = [AllowAny]
-#     queryset = Subject.objects.all()
-#     serializer_class = SubjectSerializer
-
-# class VotesCreateView(generics.CreateAPIView, request):
-#     permission_classes = [IsAuthenticated]
-#     queryset = Votes.objects.all()
-#     serializer_class = VotesSerializer
-
-# class VotesDeleteView(generics.DestroyAPIView):
-#     permission_classes = [IsAuthenticated]
-#     queryset = Votes.objects.all()
-#     def get_object(self):
-#         try:
-#             return Votes.objects.get(mutsa_user=self.request.user, subject=self.kwargs['subject_id'])
-#         except Votes.DoesNotExist:
-#             raise NotFound("투표가 존재하지 않습니다.")
-
-# class GetSubjectProgressView(generics.ListAPIView):
-#     serializer_class = GetSubjectSerializer
-
-#     def get_queryset(self):
-#         category = self.kwargs['category']  # URL에서 카테고리 받아오기
-#         return Subject.objects.filter(category=category, votes__lte=50)
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def subject_post(request):
@@ -87,7 +60,7 @@ def vote_access(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_fundsubjects(request):
     category = request.GET.get("category", None)
     subjects = []
@@ -102,7 +75,7 @@ def get_fundsubjects(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_votesubjects(request):
     category = request.GET.get("category", None)
     subjects = []

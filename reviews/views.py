@@ -10,7 +10,7 @@ from lectures.models import Lecture
 
 # Create your views here.
 @api_view(['GET', 'POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def review(request):
   match request.method:
     case 'POST':
@@ -38,7 +38,7 @@ def review(request):
         return Response({"error": "리뷰가 없습니다."}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def review_delete(request, id):
   try:
     review = Review.objects.get(id=id)
