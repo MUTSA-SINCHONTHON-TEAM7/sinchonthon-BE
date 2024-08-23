@@ -12,10 +12,11 @@ from .serializers import SubLecSerializer
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def search(request):
+  search_word = request.GET.get('search')
+  
   try:
-    search_word = request.search
     subList = Subject.objects.filter(name__icontains=search_word)
-    lecList = Lecture.objects.filter(name__icontains=search_word)
+    lecList = Lecture.objects.filter(title__icontains=search_word)
     data = {
       'subList' : subList,
       'lecList' : lecList,
