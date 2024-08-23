@@ -18,7 +18,11 @@ def lecture_post_or_lists(request):
         
         lectures = None
         if subjectId is not None:
-            subject = Subject.objects.get(id=int(subjectId))
+            subject = None
+            try:
+                subject = Subject.objects.get(id=int(subjectId))
+            except Subject.DoesNotExist:
+                return Response('없는 주제입니다.', status=status.HTTP_404_NOT_FOUND)
             lectures = Lecture.objects.filter(subject=subject)
         elif category is not None:
             lectures = Lecture.objects.filter(category=category)
@@ -58,12 +62,13 @@ def lecture_single(request, id):
             serializer = LectureResponseSerializer(lecture)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Lecture.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response('없는 강의입니다.', status=status.HTTP_404_NOT_FOUND)
     elif request.method == 'DELETE':
         try:
             lecture = Lecture.objects.get(id=id)
             if lecture.mutsa_user != request.user:
                 return Response('당신의 강의가 아닙니다.', status=status.HTTP_403_FORBIDDEN)
+            lecture.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Lecture.DoesNotExist:
             return Response('없는 강의입니다.', status=status.HTTP_404_NOT_FOUND)
@@ -112,5 +117,6 @@ def funding_access(request):
                     lecture=Lecture.objects.get(id=serializer.validated_data['lecture_id']),
                     mutsa_user=request.user
                 ).delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
             except Lecture.DoesNotExist:
                 return Response('없는 강의입니다.', status=status.HTTP_404_NOT_FOUND)
