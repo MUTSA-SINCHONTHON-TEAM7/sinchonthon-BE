@@ -18,7 +18,7 @@ class CategoryChoices(models.TextChoices):
         ETC = '기타'
 
 class Subject(models.Model):
-    name = models.CharField(default='', max_length=50)
+    name = models.CharField(max_length=50, default='')
     category = models.CharField(choices=CategoryChoices.choices, max_length=7, blank=True)
     subject_detail = models.TextField()
     
