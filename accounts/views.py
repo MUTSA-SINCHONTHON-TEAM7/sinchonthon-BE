@@ -146,7 +146,7 @@ def user_my_detail(request):
 #         )
 #         return response.json().get('profileImageURL', '')
 
-@api_view(['PUT'])
+@api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def insert_credit(request):
     amount = request.data['amount']

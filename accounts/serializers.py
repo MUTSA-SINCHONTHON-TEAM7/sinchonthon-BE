@@ -5,7 +5,7 @@ from .models import MutsaUser
 class MutsaUserResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = MutsaUser
-        fields = ['id', 'nickname', 'kakao_sub']
+        fields = ['id', 'nickname', 'kakao_sub', 'coin']
         extra_kwargs = {
             field: {'read_only': True} for field in fields
         }
