@@ -10,6 +10,7 @@ class MutsaUserManager(BaseUserManager):
             kakao_sub=kakao_sub,
         )
         user.nickname = nickname
+        user.coin = 0
         user.set_password(password)
         user.save()
         return user
@@ -23,6 +24,7 @@ class MutsaUserManager(BaseUserManager):
         )
         user.is_admin = True
         user.nickname = nickname
+        user.coin = 0
         user.set_password(password)
         user.save()
         return user
@@ -32,6 +34,7 @@ class MutsaUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     nickname = models.CharField(max_length=10)
+    coin = models.IntegerField(default=0)
 
     objects = MutsaUserManager()
 
