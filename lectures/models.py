@@ -8,8 +8,8 @@ from accounts.models import MutsaUser
 class Lecture(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     mutsa_user = models.ForeignKey(MutsaUser, on_delete=models.CASCADE)
-    title = models.CharField(default='')
-    category = models.CharField(choices=CategoryChoices.choices, max_length=1, blank=True)
+    title = models.CharField(default='', max_length=30)
+    category = models.CharField(choices=CategoryChoices.choices, max_length=7, blank=True)
     cost = models.IntegerField()
     min_total_cost = models.IntegerField()
     max_student = models.IntegerField()

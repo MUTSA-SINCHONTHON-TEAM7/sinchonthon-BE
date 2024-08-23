@@ -18,8 +18,8 @@ class CategoryChoices(models.TextChoices):
         ETC = '기타'
 
 class Subject(models.Model):
-    name = models.CharField(default='')
-    category = models.CharField(choices=CategoryChoices.choices, max_length=1, blank=True)
+    name = models.CharField(default='', max_length=30)
+    category = models.CharField(choices=CategoryChoices.choices, max_length=7, blank=True)
     subject_detail = models.TextField()
     
 class Votes(models.Model):
