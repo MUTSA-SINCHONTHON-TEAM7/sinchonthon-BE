@@ -40,4 +40,5 @@ urlpatterns = [
     path('subjects/progress', get_votesubjects),
   
     path('search', include('search.urls')),
+    path('reviews', include('reviews.urls')),
 ]
