@@ -56,9 +56,11 @@ def subject_post(request):
 def vote_access(request):
     if request.method == 'POST':
         serializer = VotePostSerializer(data=request.data)
-        if serializer.is_valid():  # 시리얼라이저 유효성 검사
+        if serializer.is_valid():
+            subject_id = serializer.validated_data['subject_id']
+            if Votes.objects.filter(subject__id=subject_id, mutsa_user=request.user).exists():
+                return Response('이미 이 항목에 투표하셨습니다.', status=status.HTTP_400_BAD_REQUEST)
             try:
-                subject_id = serializer.validated_data['subject_id']
                 createSubject = Votes.objects.create(
                     subject=Subject.objects.get(id=subject_id),
                     mutsa_user = request.user
@@ -70,9 +72,9 @@ def vote_access(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         serializer = VotePostSerializer(data=request.data)
-        if serializer.is_valid():  # 시리얼라이저 유효성 검사
+        if serializer.is_valid(): 
             try:
-                subject_id = serializer.validated_data['subject_id']  # 유효한 subject_id 가져오기
+                subject_id = serializer.validated_data['subject_id'] 
                 vote = Votes.objects.filter(
                     subject=Subject.objects.get(id=subject_id),
                     mutsa_user=request.user
