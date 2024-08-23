@@ -26,5 +26,5 @@ urlpatterns = [
     path('users/me', user_my_detail),
     path('users', user_detail),
 
-    path('search/', include('search.urls')),
+    path('search', include('search.urls')),
 ]
